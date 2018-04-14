@@ -7,6 +7,24 @@
 #include<time.h>
 
 using namespace std;
+struct dates
+{
+	int dd;
+	int mm;
+	int yy;
+};
+
+struct dd
+{
+	dates *date;
+};
+
+void generateDate(dates *date)
+{
+	date->dd = 1 + rand() % 30;
+	date->mm = 1 + rand() % 11;
+	date->yy = 1980 + rand() % 20;
+}
 
 void main()
 {
@@ -35,6 +53,7 @@ void main()
 					printf("%s", mas_s[i]);
 					count++;
 				}
+
 			}
 			else
 			{
@@ -77,19 +96,7 @@ a.	совпадать с порядком строк в заданном фай�
 b.	быть обратным по отношению к порядку строк в заданном файле.
 */
 		case 2: {
-			//char*str = "Since 1066 there have been forty \nmonarchs in England, thirty-five kings, \nfive queens and seven dynasties. \nOnly fourteen monarchs have stayed on the \nthrone for more than twenty-five years, \none of them is Queen Elizabeth II.\n";
-			/*if ((fp = fopen("case1.txt", "w")) == NULL)
-			{
-				printf("error\n");
-				exit(1);
-			}
-			else
-			{
-				printf("в файл case2 будет записан след текст:\n%s\n", str);
-				fprintf(fp, "%s", str);
-			}
-			fclose(fp);
-*/
+		
 			if ((fp = fopen("case1.txt", "r")) == NULL || (fp1 = fopen("case2_1.txt", "w")) == NULL ||
 				(fp2 = fopen("case2_2.txt", "w")) == NULL)
 			{
@@ -147,6 +154,63 @@ b.	быть обратным по отношению к порядку стро�
 
 			/*4.	Дан файл, содержащий различные даты. Каждая дата - это число, месяц и год. Найти самую позднюю дату.*/
 		case 4: {
+			int count = 5 + rand() % 5;
+			dd *date = NULL;
+			date = (dd*)malloc(count * sizeof(dd));
+			if (date != 0)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					(date + i)->date= (dates*)malloc(10 * sizeof(dates));
+					generateDate((date + i)->date);
+
+					printf("%2d.%2d.%4d\n", (date + i)->date->dd, (date + i)->date->mm, (date + i)->date->yy);
+				}
+				
+				if ((fp = fopen("case4.txt", "w")) != NULL)
+				{
+					for (int i = 0; i < count; i++)
+						fprintf(fp, "%2d.%2d.%4d\t\n", (date + i)->date->dd, (date + i)->date->mm, (date + i)->date->yy);
+				}
+				fclose(fp);
+				printf("------------------------------------------------------------------------------\n");
+				if ((fp = fopen("case4.txt", "r")) != NULL)
+				{
+					char *mas = (char*)malloc(12 * sizeof(char));
+					while (!feof(fp))
+					{
+						for (int i = 0; i < count; i++)
+						{
+							fgets(mas, 12, fp);
+							printf("%s", mas);
+						}
+						
+					}
+				}
+				/*for (int i = 0; i < countStud; i++)
+		{
+			if (stud[i].date.yy < maxY)
+				maxY = stud[i].date.yy;
+		}
+		for (int i = 0; i < countStud; i++)
+		{
+			if (stud[i].date.yy == maxY && stud[i].date.mm < maxM)
+				maxM = stud[i].date.mm;
+		}
+		for (int i = 0; i < countStud; i++)
+		{
+			if (stud[i].date.yy == maxY && stud[i].date.mm == maxM&&stud[i].date.dd < maxD)
+			{
+				maxD = stud[i].date.dd;
+				ind = i;
+			}
+		}*/
+				}
+			else
+			{
+				printf("error\n");
+				EXIT_FAILURE;
+			}
 		}break;
 
 			/*5.	Записать в файл g все чётные числа файла f, а в файл h все нечётные. Порядок следования чисел сохраняется*/
