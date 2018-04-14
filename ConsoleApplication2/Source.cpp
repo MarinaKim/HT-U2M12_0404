@@ -12,7 +12,7 @@ void main()
 {
 	srand(time(NULL));
 	setlocale(LC_ALL, "Rus");
-	FILE *fp = NULL, *fp1=NULL,*fp2=NULL;
+	FILE *fp = NULL, *fp1 = NULL, *fp2 = NULL;
 	int n;
 	do
 	{
@@ -31,7 +31,7 @@ void main()
 			{
 				for (int i = 0; i < 5; i++)
 				{
-					fgets(mas_s[i], 100,fp);
+					fgets(mas_s[i], 100, fp);
 					printf("%s", mas_s[i]);
 					count++;
 				}
@@ -59,7 +59,7 @@ void main()
 
 			if ((fp2 = fopen("case1_2.txt", "w")) != NULL)
 			{
-				for (int i = count-1; i >=0; i--)
+				for (int i = count - 1; i >= 0; i--)
 				{
 					fprintf(fp1, "%s", mas_s[i]);
 				}
@@ -77,7 +77,68 @@ a.	совпадать с порядком строк в заданном фай�
 b.	быть обратным по отношению к порядку строк в заданном файле.
 */
 		case 2: {
+			//char*str = "Since 1066 there have been forty \nmonarchs in England, thirty-five kings, \nfive queens and seven dynasties. \nOnly fourteen monarchs have stayed on the \nthrone for more than twenty-five years, \none of them is Queen Elizabeth II.\n";
+			/*if ((fp = fopen("case1.txt", "w")) == NULL)
+			{
+				printf("error\n");
+				exit(1);
+			}
+			else
+			{
+				printf("в файл case2 будет записан след текст:\n%s\n", str);
+				fprintf(fp, "%s", str);
+			}
+			fclose(fp);
+*/
+			if ((fp = fopen("case1.txt", "r")) == NULL || (fp1 = fopen("case2_1.txt", "w")) == NULL ||
+				(fp2 = fopen("case2_2.txt", "w")) == NULL)
+			{
+				printf("error\n");
+				exit(1);
+			}
+			else
+			{
+				int count = 0;
+				while (!feof(fp))
+				{
+					getc(fp);
+					count++;
+				}
+				rewind(fp);
 
+				int b = 0;
+				char c[600];
+
+				for (int i = 0; i < count; i++)
+				{
+					fscanf(fp, "%c", &c[i]);
+					if (c[i] == '\n')
+					{
+						int d = b;
+						for (int j = i - 2; j >= d; j--)
+						{
+							fprintf(fp1, "%c", c[j]);
+							b++;
+						}
+						if (d == 0)
+							fprintf(fp1, "\n");
+					}
+				}
+				rewind(fp);
+				int j = 0;
+
+				for (int i = count - 2; i >= 0; i--)
+				{
+					fscanf(fp, "%c", &c[i]);
+				}
+				for (int j = 0; j < count - 1; j++)
+				{
+					fprintf(fp2, "%c", c[j]);
+				}
+			}
+			fclose(fp);
+			fclose(fp1);
+			fclose(fp2);
 		}break;
 
 			/*3.	Имеется текстовый файл. Получить текст, в котором в конце каждой строки из заданного файла добавлен восклицательный знак.*/
