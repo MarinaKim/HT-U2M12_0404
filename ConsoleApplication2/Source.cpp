@@ -96,7 +96,7 @@ a.	совпадать с порядком строк в заданном фай�
 b.	быть обратным по отношению к порядку строк в заданном файле.
 */
 		case 2: {
-		
+
 			if ((fp = fopen("case1.txt", "r")) == NULL || (fp1 = fopen("case2_1.txt", "w")) == NULL ||
 				(fp2 = fopen("case2_2.txt", "w")) == NULL)
 			{
@@ -161,57 +161,61 @@ b.	быть обратным по отношению к порядку стро�
 			{
 				for (int i = 0; i < count; i++)
 				{
-					(date + i)->date= (dates*)malloc(10 * sizeof(dates));
+					(date + i)->date = (dates*)malloc(10 * sizeof(dates));
 					generateDate((date + i)->date);
 
 					printf("%2d.%2d.%4d\n", (date + i)->date->dd, (date + i)->date->mm, (date + i)->date->yy);
 				}
-				
+
 				if ((fp = fopen("case4.txt", "w")) != NULL)
 				{
 					for (int i = 0; i < count; i++)
-						fprintf(fp, "%2d.%2d.%4d\t\n", (date + i)->date->dd, (date + i)->date->mm, (date + i)->date->yy);
+						fprintf(fp, "%2d\n%2d\n%4d\n", (date + i)->date->dd, (date + i)->date->mm, (date + i)->date->yy);
 				}
 				fclose(fp);
 				printf("------------------------------------------------------------------------------\n");
 				if ((fp = fopen("case4.txt", "r")) != NULL)
 				{
-					char *mas = (char*)malloc(12 * sizeof(char));
 					while (!feof(fp))
 					{
-						for (int i = 0; i < count; i++)
-						{
-							fgets(mas, 12, fp);
-							printf("%s", mas);
-						}
-						
+						fscanf(fp, "%d", &date->date->dd);
+						fscanf(fp, "%d", &date->date->mm);
+						fscanf(fp, "%d", &date->date->yy);
+						printf("%d.%d.%d\n", date->date->dd, date->date->mm, date->date->yy);
+					}					
+				}
+				else
+				{
+					printf("error\n");
+					EXIT_FAILURE;
+				}
+				int minY = 1980, minM = 1, minD = 1;
+				for (int i = 0; i < count; i++)
+				{
+					if (date[i].date->yy > minY)
+					{
+						minY = date[i].date->yy;
 					}
 				}
-				/*for (int i = 0; i < countStud; i++)
-		{
-			if (stud[i].date.yy < maxY)
-				maxY = stud[i].date.yy;
-		}
-		for (int i = 0; i < countStud; i++)
-		{
-			if (stud[i].date.yy == maxY && stud[i].date.mm < maxM)
-				maxM = stud[i].date.mm;
-		}
-		for (int i = 0; i < countStud; i++)
-		{
-			if (stud[i].date.yy == maxY && stud[i].date.mm == maxM&&stud[i].date.dd < maxD)
-			{
-				maxD = stud[i].date.dd;
-				ind = i;
-			}
-		}*/
+				/*printf("Last year: %4d\n", minY);*/
+				for (int i = 0; i < count; i++)
+				{
+					if ((date[i].date->yy == minY) && (date[i].date->mm > minM))
+					{
+						minM = date[i].date->mm;
+					}
 				}
-			else
-			{
-				printf("error\n");
-				EXIT_FAILURE;
+				/*printf("Last year: %d.%4d\n", minM,minY);*/
+				for (int i = 0; i < count; i++)
+				{
+					if (date[i].date->yy == minY&&date[i].date->mm == minM&&date[i].date->dd > minD)
+					{
+						minD = date[i].date->dd;
+					}
+				}
+				printf("самая поздняя дата:%2d.%2d.%4d\n", minD, minM, minY);
 			}
-		}break;
+			}break;
 
 			/*5.	Записать в файл g все чётные числа файла f, а в файл h все нечётные. Порядок следования чисел сохраняется*/
 		case 5: {
@@ -263,5 +267,5 @@ f.	Определить общую стоимость предложенных �
 		case 8: {
 		}break;
 		}
-	} while (n > 0);
-}
+		} while (n > 0);
+	}
